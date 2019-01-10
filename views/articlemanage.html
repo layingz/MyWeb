@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>欢迎来到本网站！</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<script>
+    function commit(){
+        var form = new FormData(document.getElementById("form1"));
+        $.ajax({
+            url:"/articlemanage",
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(msg){
+                if(msg.status == "1"){
+                    alert("上传成功")
+                }
+            },
+        });
+    }
+
+</script>
+
+<style>
+
+    #form1.firstfrom{
+        text-align:left;
+        margin-left:30px;
+        margin-top:100px;
+        position: absolute;
+    }
+
+    div.form-group {
+        text-align:left;
+        width: 1500px;
+    }
+
+</style>
+
+<body>
+
+<form id="form1" class="firstfrom">
+
+    <select id = "select1" name="type">
+        <option value="" selected = "selected">选择文章类型</option>
+        <option value="study">学习</option>
+        <option value="explore">感悟</option>
+    </select>
+
+    <div class="form-group">
+        <textarea class="form-control" id ="title" name="title" rows="1">标题</textarea>
+        <textarea class="form-control" id ="content" name="content" rows="20">内容</textarea>
+    </div>
+
+    <button class="btn btn-primary" onclick="commit()">提交</button>
+</form>
+
+</body>
+</html>

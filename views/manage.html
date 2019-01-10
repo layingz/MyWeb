@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>欢迎来到本网站！</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+    .manage {
+        float: left;
+        width: 268px;
+        margin: 0;
+        margin-top:100px;
+        background: gainsboro;
+        height:300px;
+    }
+
+    #content {
+        float: left;
+    }
+
+    .menu_nva {
+        line-height: 38px;
+        border-left: 1px solid #51a9f18c;
+        backguound: #fff;
+        border-right: 1px solid #51a9f18c;
+    }
+
+</style>
+
+<script>
+    $(function() {
+        $(".manage").on("click", "li", function() {
+            var sId = $(this).data("id"); //获取data-id的值
+            window.location.hash = sId; //设置锚点
+            loadInner(sId);
+        });
+
+        function loadInner(sId) {
+            var sId = window.location.hash;
+            var pathn, i;
+            switch(sId) {
+                case "#filemanage":
+                    pathn = "filemanage.html";
+                    i = 0;
+                    break;
+                case "#articlemanage":
+                    pathn = "articlemanage.html";
+                    i = 1;
+                    break;
+                case "#webmanage":
+                    pathn = "webmanage.html";
+                    i = 2;
+                    break;
+                case "#info":
+                    pathn = "user_info.html";
+                    i = 3;
+                    break;
+                default:
+                    pathn = "filemanage.html";
+                    i = 0;
+                    break;
+            }
+            $("#content").load(pathn); //加载相对应的内容
+            //$(".manage li").eq(i).addClass("current").siblings().removeClass("current"); //当前列表高亮
+        }
+        var sId = window.location.hash;
+        loadInner(sId);
+    });
+</script>
+
+<body>
+<div class="userWrap">
+    <div style="display: block" class="menu_nva">
+    <ul class="manage">
+            <!--class="current"-->
+            <li data-id="filemanage" >文件管理</li>
+            <li data-id="articlemanage">文章管理</li>
+            <li data-id="webmanage">网页管理</li>
+            <li data-id="info">消息中心</li>
+    </ul>
+    </div>
+    <div id="content"></div>
+</div>
+</body>
+
+
+
+</html>

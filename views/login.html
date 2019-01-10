@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>欢迎来到本网站！</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>用户登录</h2>
+    <form id="login_form" autocomplete="on">
+        <div class="form-group">
+            <label for="username">用户名:</label>
+            <input type="text" class="form-control" id="username" placeholder="请输入用户名" required="required">
+        </div>
+        <div class="form-group">
+            <label for="password">密码:</label>
+            <input type="password" class="form-control" id="password" placeholder="请输入密码" required="required">
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox"> Remember me
+            </label>
+        </div>
+        <button id="login_btn" class="btn btn-primary">提交</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $("#login_btn").click(function(){
+        var username = $.trim($("#username").val());
+        var password = $.trim($("#password").val());
+
+        if(username == "")
+        {
+            alert("请输入用户名！！！");
+            return false;
+        }
+
+        if(password == "")
+        {
+            alert("请输入密码！！！");
+            return false;
+        }
+
+        var data= {username:username,password:password};
+
+        $.ajax({
+            type:"POST",
+                url:"/login",
+                data:data,
+                ataType:'json',
+                success:function(msg){
+                    if(msg.status == '1'){
+                        //window.location.href = "{:U('Index/personal')}";
+                        window.location.href = "/manage";
+                    }else{
+                        alert("登录失败，请重试!");
+                    }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

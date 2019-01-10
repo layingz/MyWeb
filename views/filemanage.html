@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>欢迎来到本网站！</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<script>
+    function changeName(e) {
+        var span = document.getElementById('span');
+        var span_string = ""
+        for(var i =0; i<e.currentTarget.files.length; i++) {
+            span_string += e.currentTarget.files[i].name;
+        }
+        span.innerHTML = span_string
+    }
+
+    function up(){
+        var file=$("#customFile").val();
+        if(file == ""){
+            alert("请选择文件！！！");
+            return false;
+        }
+
+        var form = new FormData(document.getElementById("form1"));
+        $.ajax({
+            url:"/fileup",
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(msg){
+                if(msg.status == "1"){
+                    alert("上传成功")
+                }else{
+                    alert(msg)
+                }
+            },
+            error:function(e){
+                alert("错误！!", e);
+                window.clearInterval(timer);
+            },
+        });
+        //get();//此处为上传文件的进度条
+    }
+
+    function lfile(){
+        fileurl = "/dir?path=" + $("#selectfile").val()
+        $.ajax({
+            url:fileurl,
+            type:"get",
+            processData:false,
+            contentType:false,
+            success:function(data){
+                console.log(data);
+                var htm = "";
+                htm += "<table><thead><tr><th>文件名</th><th>大小</th><th>类型</th></tr></thead><tbody>";
+                for(var i=0;i<data.length;i++){
+                    htm += '<tr><td>' + data[i].path + '</td><td>'
+                            + data[i].size + '</td><td>'
+                            + data[i].type + '</td><td>';
+                }
+                htm += '</tbody></table>';
+                $("#result").html(htm);
+            },
+            error:function(e){
+                alert("错误！！");
+                window.clearInterval(timer);
+            }
+        });
+    }
+
+    function downfile() {
+        filename = $("#downfile").val()
+        if (filename=="") {
+            return
+        }
+        $("#downhref").attr("href","/download/" + filename);
+    }
+
+</script>
+
+<style>
+
+   form.form-group {
+        text-align: left;
+        position: absolute;
+        margin-left:50px;
+        margin-top: 100px;
+    }
+
+   #filedown{
+       text-align: left;
+       position: absolute;
+       margin-left:50px;
+       margin-top: 250px;
+   }
+
+    #filelist {
+        text-align: left;
+        position: absolute;
+        margin-left:50px;
+        margin-top: 300px;
+    }
+
+    #result{
+        text-align: left;
+        position: absolute;
+        margin-left:50px;
+        margin-top: 400px;
+    }
+
+</style>
+
+<body>
+
+<div id="fileop" class="container mt-3">
+    <form id = "form1" class="form-group">
+        <select id = "select1" name="type">
+            <option value="" selected = "selected">选择文件类型</option>
+            <option value="text">文本</option>
+            <option value="image">图像</option>
+            <option value="player">影音</option>
+            <option value="other">其他</option>
+        </select>
+
+        <div class="custom-file mb-3">
+            <!--多文件上传 multiple="multiple"-->
+            <input type="file" class="custom-file-input" id="customFile" name="file" multiple="multiple" required="required" onchange=changeName(event)>
+            <label class="custom-file-label" for="customFile" ><span id="span"></span></label>
+        </div>
+
+        <button class="btn1 btn-primary" onclick="up()">上传</button>
+    </form>
+
+    <div id="filedown">
+        <form id="fromdown">
+            <input type="text" id="downfile" name="name" required="required">
+            <a id="downhref" class="btn btn-primary" onclick="downfile()">下载</a>
+        </form>
+    </div>
+
+    <div id="filelist">
+        <form id = "formfile">
+            <select id = "selectfile" class="form-control input-sm">
+                <option value="" selected = "selected">所有文件</option>
+                <option value="text">文本</option>
+                <option value="image">图像</option>
+                <option value="player">影音</option>
+                <option value="other">其他</option>
+            </select>
+            <br>
+            <button id="list" class="btn3 btn-primary" onclick="lfile()">查询</button>
+        </form>
+    </div>
+    <div id ="result"></div>
+</div>
+
+</body>
+</html>

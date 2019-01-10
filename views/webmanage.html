@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>欢迎来到本网站！</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+    #form1.firstfrom{
+        text-align:left;
+        margin-left:30px;
+        margin-top:150px;
+        position: absolute;
+    }
+
+    div.form-group {
+        text-align:left;
+        width: 600px;
+    }
+
+</style>
+
+<script>
+    function commit(){
+        var form = new FormData(document.getElementById("form1"));
+        $.ajax({
+            url:"/webmanage",
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(msg){
+                if(msg.status == "1"){
+                    alert("上传成功")
+                }else{
+                    alert(msg)
+                }
+            },
+            error:function(e){
+                alert("错误！！");
+                window.clearInterval(timer);
+            }
+        });
+    }
+
+    /*
+    function myFunction(){
+        document.getElementById("select1").value='${userManageForm.select1}';
+
+    }
+
+    myFunction();
+    */
+</script>
+
+<body>
+
+<form id="form1" class="firstfrom">
+
+    <select id = "select1" name="type">
+        <option value="" selected = "selected">选择类型</option>
+        <option value="lang">语言学习</option>
+        <option value="alg">算法学习</option>
+        <option value="open">开源学习</option>
+        <option value="web">网站学习</option>
+        <option value="distributed">分布式学习</option>
+        <option value="explore">感悟</option>
+    </select>
+
+    <div class="form-group">
+        <textarea class="form-control" name="name" rows="1">网站名字</textarea>
+        <textarea class="form-control" name="address" rows="1">网站地址</textarea>
+    </div>
+
+    <button class="btn btn-primary" onclick="commit()">提交</button>
+</form>
+
+
+</body>
+</html>

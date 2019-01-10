@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>欢迎来到本网站！</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div id="context">
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <td>编号</td>
+            <td>标题</td>
+            <td>更新时间</td>
+        </tr>
+        </thead>
+
+        <tbody>
+        {{if .exist}}
+            {{range $value := .articles}}
+                <tr>
+                    <td>{{$value.First}}</td>
+                    <td><a href="/article/{{$value.Second}}">{{$value.Second}}</a></td>
+                    <td>{{$value.Third}}</td>
+                </tr>
+        {{end}}
+        {{else}}
+                <tr>
+                    <td colspan="5">文章不存在</td>
+                </tr>
+        {{end}}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
