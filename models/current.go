@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 	"path/filepath"
-	"os"
 )
 
 //var mypath = "/home/myproject/src/superly.club/web/"
@@ -21,7 +20,8 @@ func GetTime() string {
 
 func GetAP(path string) string{
 	//后台程序获取不到gopath
-	return filepath.Join(os.Getenv("GOPATH"), "src/superly.club/web/" + path)
+	//return filepath.Join(os.Getenv("GOPATH"), "src/superly.club/web/" + path)
+	return filepath.Join("E:/code/MyWeb/" + path)
 	//return  mypath + path
 }
 
